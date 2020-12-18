@@ -1,1 +1,10 @@
-body {background-color: black;}
+body {
+	background-color: black;
+	align-content: center;
+	}
+canvas {
+	padding: 0;
+    margin: auto;
+    display: block;
+	align-content: center;
+	}

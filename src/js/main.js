@@ -193,6 +193,12 @@ Events.on(engine, 'collisionStart', function(event) {
 		ctx.fillStyle = "#FFFFFF";
 		ctx.fillText(pad(p2stats[0], 2), 50, 100);
 		ctx.fillText(pad(p1stats[0], 2), 1075, 100);
+		for(var i = 1; i <= p2stats[1]; i++){
+			ctx.fillRect(50+ i*20, 10, 20, 10);
+		}
+		for(var c = 1; c <= p1stats[1]; c++){
+			ctx.fillRect(1075- c*20, 10, 20, 10);
+		}
 		
 	});
 
