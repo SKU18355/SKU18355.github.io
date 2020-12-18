@@ -1,6 +1,11 @@
 # mattergame
 ## Introduction
 A test for a game based on javascript, because flash is dead now.
+
+## How to run the stuff over HTTP
+
+``python -m http.server ``
+
 ## Controls
 ### Player 1
 move with WASD and kick with E
