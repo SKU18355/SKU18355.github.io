@@ -204,3 +204,10 @@ function pad(num, size) {
     if(num.length < size) num = "0" + num;
     return num;
 }
+function resetstate(){
+	Matter.Body.setPosition(boxA, Matter.Vector.create(100,100);
+	Matter.Body.setPosition(boxB, Matter.Vector.create(1100,100);
+	Matter.Body.setPosition(ball, Matter.Vector.create(600,30);
+	Matter.Body.setPosition(ballb, Matter.Vector.create(600,30);
+	
+}
