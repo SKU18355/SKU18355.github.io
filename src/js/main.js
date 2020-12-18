@@ -157,10 +157,12 @@ Events.on(engine, 'collisionStart', function(event) {
 			
 			if (pair.bodyA === ball && pair.bodyB === goala) {
 				console.log("HIT");
+				resetstate([boxA, boxB, ball, ballb]);
 				p1stats[0]++;
 			}
 			if (pair.bodyA === ball && pair.bodyB === goalb) {
 				console.log("hit");
+				resetstate([boxA, boxB, ball, ballb]);
 				p2stats[0]++;
 				
 			}
@@ -204,10 +206,23 @@ function pad(num, size) {
     if(num.length < size) num = "0" + num;
     return num;
 }
-function resetstate(){
-	Matter.Body.setPosition(boxA, Matter.Vector.create(100,100));
-	Matter.Body.setPosition(boxB, Matter.Vector.create(1100,100));
-	Matter.Body.setPosition(ball, Matter.Vector.create(600,30));
-	Matter.Body.setPosition(ballb, Matter.Vector.create(600,30));
++function resetstate(x){
 	
-}
+	Matter.Body.setPosition(x[0], Matter.Vector.create(100,100));
+	Matter.Body.setAngularVelocity(x[0], Matter.Vector.create(0,0));
+	Matter.Body.setVelocity(x[0], Matter.Vector.create(0,0));
+	
+	
+	Matter.Body.setPosition(x[1], Matter.Vector.create(1100,100));
+	//Matter.Body.setAngularVelocity(x[1], Matter.Vector.create(0,0));
+	Matter.Body.setVelocity(x[1], Matter.Vector.create(0,0));
+	
+	Matter.Body.setPosition(x[2], Matter.Vector.create(600,30));
+	//Matter.Body.setAngularVelocity(x[2], Matter.Vector.create(0,0));
+	Matter.Body.setVelocity(x[2], Matter.Vector.create(0,0));
+	Matter.Body.setPosition(x[3], Matter.Vector.create(600,30));
+	//Matter.Body.setAngularVelocity(x[3], Matter.Vector.create(0,0));
+	Matter.Body.setVelocity(x[3], Matter.Vector.create(0,0));
+	
+ 	
+ }
