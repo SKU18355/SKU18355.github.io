@@ -83,10 +83,7 @@ function init(){
 		}
 		if (event.keyCode == 40) {
 			console.log("down");
-			if(p1stats[1]>0){
-				Matter.Body.applyForce(boxB, boxB.position, Matter.Vector.create(0, +0.2));
-				p1stats[1]--;
-			}
+			Matter.Body.applyForce(boxB, boxB.position, Matter.Vector.create(0, +0.2));
 		}
 		if (event.keyCode == 16 && p1stats[4]==1) {
 			Matter.Body.applyForce(ball, boxB.position, Matter.Vector.mult(Matter.Vector.sub(ball.position, boxB.position), 0.0000145));
@@ -111,10 +108,7 @@ function init(){
 		}
 		if (event.keyCode == 83) {
 			console.log("down");
-			if(p2stats[1]>0){
-				Matter.Body.applyForce(boxA, boxA.position, Matter.Vector.create(0, +0.2));
-				p2stats[1]--;
-			}
+			Matter.Body.applyForce(boxA, boxA.position, Matter.Vector.create(0, +0.2));
 		}
 		if (event.keyCode == 69 && p2stats[4]==1) {
 			Matter.Body.applyForce(ball, boxA.position, Matter.Vector.mult(Matter.Vector.sub(ball.position, boxA.position), 0.0000145));
