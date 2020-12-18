@@ -191,8 +191,8 @@ Events.on(engine, 'collisionStart', function(event) {
 		var ctx = cs[0].getContext("2d");
 		ctx.font = "50px Verdana";
 		ctx.fillStyle = "#FFFFFF";
-		ctx.fillText(pad(p1stats[0], 2), 50, 100);
-		ctx.fillText(pad(p2stats[0], 2), 1075, 100);
+		ctx.fillText(pad(p2stats[0], 2), 50, 100);
+		ctx.fillText(pad(p1stats[0], 2), 1075, 100);
 		
 	});
 
@@ -205,9 +205,9 @@ function pad(num, size) {
     return num;
 }
 function resetstate(){
-	Matter.Body.setPosition(boxA, Matter.Vector.create(100,100);
-	Matter.Body.setPosition(boxB, Matter.Vector.create(1100,100);
-	Matter.Body.setPosition(ball, Matter.Vector.create(600,30);
-	Matter.Body.setPosition(ballb, Matter.Vector.create(600,30);
+	Matter.Body.setPosition(boxA, Matter.Vector.create(100,100));
+	Matter.Body.setPosition(boxB, Matter.Vector.create(1100,100));
+	Matter.Body.setPosition(ball, Matter.Vector.create(600,30));
+	Matter.Body.setPosition(ballb, Matter.Vector.create(600,30));
 	
 }
