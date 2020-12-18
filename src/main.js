@@ -18,15 +18,16 @@ var render = Render.create({
       width: 1200,
       height: 700,
       wireframes: false, // <-- important
-	  showAngleIndicator: true
+	  showAngleIndicator: false
     }
 });
+engine.world.gravity.y = 1.2;
 
 // create two boxes and a ground
 var boxA = Bodies.rectangle(100, 100, 80, 80, { render: {fillStyle: '#199e5e'}});
 var boxB = Bodies.rectangle(1100, 100, 80, 80, { render: {fillStyle: '#f56342'}});
-var ball = Bodies.circle(600, 30, 40, {frictionAir: 0, friction: 0, restitution: 0.5 ,render: {fillStyle: '#0f2091'}});
-var ballb = Bodies.circle(600, 30, 80, {frictionAir: 0, friction: 0, restitution: 0.5 , isSensor: true, render : {visible: false}});
+var ball = Bodies.circle(600, 30, 40, {frictionAir: 0.001, friction: 0.001, restitution: 1,render: {fillStyle: '#e3ad19'}});
+var ballb = Bodies.circle(600, 30, 100, {frictionAir: 0.001, friction: 0.001, restitution: 1 , isSensor: true, render : {visible: true, fillStyle: '#e3ad19', opacity: 0.01}});
 Matter.Body.setDensity(ball, 0.000001);
 Matter.Body.setDensity(ballb, 0.000001);
 var constraint = Constraint.create({
@@ -34,11 +35,16 @@ var constraint = Constraint.create({
         bodyB: ballb,
         length: 0
     });
-var ground = Bodies.rectangle(600, 700, 1200, 60, { isStatic: true });
+var ground = Bodies.rectangle(600, 730, 1200, 120, { isStatic: true });
 var ground2 = Bodies.rectangle(600, 700, 1200, 60, { isStatic: true, isSensor: true });
+var goala = Bodies.rectangle(300, 700, 580, 61, { isStatic: true, isSensor: true, render : {visible: true }});
+var goalb = Bodies.rectangle(900, 700, 580, 61, { isStatic: true, isSensor: true, render : {visible: true }});
+
 var net = Bodies.rectangle(600, 540, 10, 260, {isStatic: true, render: {fillStyle: '#ffffff'}});
-var border1 = Bodies.rectangle(0, -750, 1, 2700, {isStatic: true});
-var border2 = Bodies.rectangle(1200, -750, 1, 2700, {isStatic: true});
+var border1 = Bodies.rectangle(-10, -750, 20, 2700, {isStatic: true});
+var border2 = Bodies.rectangle(1210, -750,20, 2700, {isStatic: true});
+var border3 = Bodies.rectangle(-15, -750, 20, 2700, {isStatic: true});
+var border4 = Bodies.rectangle(1215, -750,20, 2700, {isStatic: true});
 
 
 var maxjumps = 10;
@@ -46,7 +52,7 @@ var p1stats = [0, 100, 0, 0, 0];//score & jumps left &
 var p2stats = [0, 100, 0, 0, 0];//score & jumps left
 
 // add all of the bodies to the world
-World.add(engine.world, [boxA, boxB, ground, ground2, ball, ballb, constraint, net, border1, border2]);
+World.add(engine.world, [boxA, boxB, ground, ground2, ball, ballb, constraint, net, border1, border2, border3, border4, goala, goalb]);
 
 // run the engine
 Engine.run(engine);
@@ -72,8 +78,15 @@ document.body.addEventListener("keydown", function(event) {
 		Matter.Body.applyForce(boxB, boxB.position, Matter.Vector.create(-0.1, 0));
 		p1stats[3] = Matter.Common.now();
 	}
+	if (event.keyCode == 40) {
+		console.log("down");
+		if(p1stats[1]>0){
+     	Matter.Body.applyForce(boxB, boxB.position, Matter.Vector.create(0, +0.2));
+		p1stats[1]--;
+		}
+	}
 	if (event.keyCode == 16 && p1stats[4]==1) {
-		Matter.Body.applyForce(ball, boxB.position, Matter.Vector.mult(Matter.Vector.sub(ball.position, boxB.position), 0.0000045));
+		Matter.Body.applyForce(ball, boxB.position, Matter.Vector.mult(Matter.Vector.sub(ball.position, boxB.position), 0.0000145));
 	}
 	//BOX A
 	if (event.keyCode == 87) {
@@ -93,8 +106,15 @@ document.body.addEventListener("keydown", function(event) {
 		Matter.Body.applyForce(boxA, boxA.position, Matter.Vector.create(-0.1, 0));
 		p2stats[3] = Matter.Common.now();
 	}
+	if (event.keyCode == 83) {
+		console.log("down");
+		if(p2stats[1]>0){
+     	Matter.Body.applyForce(boxA, boxA.position, Matter.Vector.create(0, +0.2));
+		p2stats[1]--;
+		}
+	}
 	if (event.keyCode == 69 && p2stats[4]==1) {
-		Matter.Body.applyForce(ball, boxA.position, Matter.Vector.mult(Matter.Vector.sub(ball.position, boxA.position), 0.0000045));
+		Matter.Body.applyForce(ball, boxA.position, Matter.Vector.mult(Matter.Vector.sub(ball.position, boxA.position), 0.0000145));
 	}
 	
 	
@@ -134,6 +154,19 @@ Events.on(engine, 'collisionStart', function(event) {
 			if (pair.bodyA === boxB && pair.bodyB === ball) {
 				Matter.Body.applyForce(ball, ball.position, Matter.Vector.mult(Matter.Vector.sub(ball.position, boxB.position), 2));
 			}
+			
+			if (pair.bodyA === ball && pair.bodyB === goala) {
+				console.log("HIT");
+				p1stats[0]++;
+			}
+			if (pair.bodyA === ball && pair.bodyB === goalb) {
+				console.log("hit");
+				p2stats[0]++;
+				
+			}
+			
+			
+			
 
         }
     });
@@ -152,8 +185,22 @@ Events.on(engine, 'collisionStart', function(event) {
 			
         }
     });
+	
+	Events.on(render, "afterRender", function(event) {
+		var cs = document.getElementsByTagName('canvas');
+		var ctx = cs[0].getContext("2d");
+		ctx.font = "50px Verdana";
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillText(pad(p1stats[0], 2), 50, 100);
+		ctx.fillText(pad(p2stats[0], 2), 1075, 100);
+		
+	});
 
 
 
-
+}
+function pad(num, size) {
+    num = num.toString();
+    if(num.length < size) num = "0" + num;
+    return num;
 }
