@@ -3,7 +3,7 @@ function init(){
 var Engine = Matter.Engine,
 	Events = Matter.Events,
     Render = Matter.Render,
-	 Constraint = Matter.Constraint,
+	Constraint = Matter.Constraint,
     World = Matter.World,
     Bodies = Matter.Bodies;
 
@@ -40,7 +40,7 @@ var ground2 = Bodies.rectangle(600, 700, 1200, 60, { isStatic: true, isSensor: t
 var goala = Bodies.rectangle(300, 700, 580, 61, { isStatic: true, isSensor: true, render : {visible: true }});
 var goalb = Bodies.rectangle(900, 700, 580, 61, { isStatic: true, isSensor: true, render : {visible: true }});
 
-var net = Bodies.rectangle(600, 540, 10, 260, {isStatic: true, render: {fillStyle: '#ffffff'}});
+var net = Bodies.rectangle(600, 540, 14, 260, {isStatic: true, render: {fillStyle: '#ffffff'}});
 var border1 = Bodies.rectangle(-10, -750, 20, 2700, {isStatic: true});
 var border2 = Bodies.rectangle(1210, -750,20, 2700, {isStatic: true});
 var border3 = Bodies.rectangle(-15, -750, 20, 2700, {isStatic: true});
@@ -48,11 +48,11 @@ var border4 = Bodies.rectangle(1215, -750,20, 2700, {isStatic: true});
 
 
 var maxjumps = 10;
-var p1stats = [0, 100, 0, 0, 0];//score & jumps left & 
-var p2stats = [0, 100, 0, 0, 0];//score & jumps left
+var p1stats = [0, maxjumps, 0, 0, 0];//score & jumps left & kann springen & etwas &kann kicken & 
+var p2stats = [0, maxjumps, 0, 0, 0];//score & jumps left
 
 // add all of the bodies to the world
-World.add(engine.world, [boxA, boxB, ground, ground2, ball, ballb, constraint, net, border1, border2, border3, border4, goala, goalb]);
+World.add(engine.world, [net, border1, border2, border3, border4, goala, goalb, ground, ground2, boxA, boxB,  ball, ballb, constraint]);
 
 // run the engine
 Engine.run(engine);
@@ -156,12 +156,10 @@ Events.on(engine, 'collisionStart', function(event) {
 			}
 			
 			if (pair.bodyA === ball && pair.bodyB === goala) {
-				console.log("HIT");
 				resetstate([boxA, boxB, ball, ballb]);
 				p1stats[0]++;
 			}
 			if (pair.bodyA === ball && pair.bodyB === goalb) {
-				console.log("hit");
 				resetstate([boxA, boxB, ball, ballb]);
 				p2stats[0]++;
 				
@@ -206,23 +204,28 @@ function pad(num, size) {
     if(num.length < size) num = "0" + num;
     return num;
 }
-+function resetstate(x){
+function resetstate(x){
 	
 	Matter.Body.setPosition(x[0], Matter.Vector.create(100,100));
-	Matter.Body.setAngularVelocity(x[0], Matter.Vector.create(0,0));
+	Matter.Body.setAngularVelocity(x[0], 0);
+	Matter.Body.setAngle(x[0], 0);
 	Matter.Body.setVelocity(x[0], Matter.Vector.create(0,0));
 	
 	
 	Matter.Body.setPosition(x[1], Matter.Vector.create(1100,100));
-	//Matter.Body.setAngularVelocity(x[1], Matter.Vector.create(0,0));
+	Matter.Body.setAngularVelocity(x[1], 0);
+	Matter.Body.setAngle(x[1], 0);
 	Matter.Body.setVelocity(x[1], Matter.Vector.create(0,0));
 	
 	Matter.Body.setPosition(x[2], Matter.Vector.create(600,30));
-	//Matter.Body.setAngularVelocity(x[2], Matter.Vector.create(0,0));
+	Matter.Body.setAngularVelocity(x[2], 0);
+	Matter.Body.setAngle(x[2], 0);
 	Matter.Body.setVelocity(x[2], Matter.Vector.create(0,0));
+
 	Matter.Body.setPosition(x[3], Matter.Vector.create(600,30));
-	//Matter.Body.setAngularVelocity(x[3], Matter.Vector.create(0,0));
+	Matter.Body.setAngularVelocity(x[3],0);
+	Matter.Body.setAngle(x[3], 0);
 	Matter.Body.setVelocity(x[3], Matter.Vector.create(0,0));
-	
+
  	
  }
